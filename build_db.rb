@@ -7,9 +7,11 @@ require_relative 'libdb'
 files = Dir.entries("../global_data/archive")[2..-1]
 data = []
 records = 0
+totalRecords = 0
 #files = files[0..10]
 
 files.each do |file| 
+  records = 0
 CSV.foreach("../global_data/archive/#{file}") do |row|
 next if row.nil?
 row.map{ |x| next if x.nil?; x.gsub(/[^0-9a-z ]/i, '')}
@@ -24,7 +26,8 @@ capture_date: row[1], temp_avg: row[6], dew_point: row[8],
     station_pressure: row[12], sea_level_pressure: row[10])
 records += 1
 end
-p "Total Records: #{records}, record #{file} has been inserted into db"
+total_records += records
+p "Records inserted: #{records}, Total Records #{totalRecords} record #{file} has been inserted into db"
 sleep 2
 rescue CSV::MalformedCSVError
   p file
