@@ -34,7 +34,7 @@ rescue CSV::MalformedCSVError
   p row
 rescue => e 
   p file 
-  p row
+  #p row
   p e
 
 end
