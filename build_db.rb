@@ -23,6 +23,7 @@ capture_date: row[1], temp_avg: row[6], dew_point: row[8],
     station_pressure: row[12], sea_level_pressure: row[10])
 
 end
+sleep 60
 rescue CSV::MalformedCSVError
   p file
   p row
