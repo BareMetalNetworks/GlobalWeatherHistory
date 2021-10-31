@@ -6,6 +6,7 @@ require_relative 'libdb'
 
 files = Dir.entries("../global_data/archive")[2..-1]
 data = []
+records = 0
 #files = files[0..10]
 
 files.each do |file| 
@@ -21,13 +22,15 @@ capture_date: row[1], temp_avg: row[6], dew_point: row[8],
     visibility: row[14], wind_speed: row[16], wind_max: row[18], wind_gust: row[19], 
     temp_max: row[20], temp_min: row[22], precipitation: row[24], snow_depth: row[26],
     station_pressure: row[12], sea_level_pressure: row[10])
-
+records += 1
 end
+p "Total Records: #{records}, record #{file} has been inserted into db"
 sleep 60
 rescue CSV::MalformedCSVError
   p file
   p row
 end
+
 
 p History.find_by(capture_date: "1977-7-22")
 
