@@ -6,7 +6,7 @@ require_relative 'libdb'
 
 files = Dir.entries("./global_data/archive")[2..-1]
 data = []
-files = files[0..1000]
+files = files[0..10]
 
 files.each do |file| 
 CSV.foreach("./global_data/archive/#{file}") do |row|
