@@ -25,7 +25,7 @@ capture_date: row[1], temp_avg: row[6], dew_point: row[8],
 records += 1
 end
 p "Total Records: #{records}, record #{file} has been inserted into db"
-sleep 60
+sleep 2
 rescue CSV::MalformedCSVError
   p file
   p row
