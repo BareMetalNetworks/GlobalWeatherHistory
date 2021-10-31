@@ -4,12 +4,12 @@ require 'active_record'
 require 'pry'
 require_relative 'libdb'
 
-files = Dir.entries("./global_data/archive")[2..-1]
+files = Dir.entries("../global_data/archive")[2..-1]
 data = []
-files = files[0..10]
+#files = files[0..10]
 
 files.each do |file| 
-CSV.foreach("./global_data/archive/#{file}") do |row|
+CSV.foreach("../global_data/archive/#{file}") do |row|
 next if row.nil?
 row.map{ |x| next if x.nil?; x.gsub(/[^0-9a-z ]/i, '')}
 
