@@ -29,6 +29,11 @@ sleep 2
 rescue CSV::MalformedCSVError
   p file
   p row
+rescue => e 
+  p file 
+  p row
+  p e
+
 end
 
 
