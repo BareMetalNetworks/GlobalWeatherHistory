@@ -13,6 +13,8 @@ ActiveRecord::Base.establish_connection(
 p History.all.count
 
 __END__
+
+
 # CSV file meta
 #_____________________________
 # Index | Heading | DB_field_name
@@ -25,9 +27,9 @@ __END__
 # 5 "NAME" location
 # 6 "TEMP" temp_avg
 # 7 "TEMP_ATTRIBUTES"
-# 8 "DEWP" dewpoint 
+# 8 "DEWP" dewpoint
 # 9 "DEWP_ATTRIBUTES"
-# 10 "SLP" sea_level_pressure 
+# 10 "SLP" sea_level_pressure
 # 11 "SLP_ATTRIBUTES"
 # 12 "STP" station_pressure
 # 13 "STP_ATTRIBUTES"
