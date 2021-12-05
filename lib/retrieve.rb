@@ -20,10 +20,18 @@ def weathergov_request(url)
 end
 
 p get_forecast('BOI/182,24')
+
+__END__
+# STATION
+# stationId TWF
 # FORECAST
+
 # https://api.weather.gov/gridpoints/BOI/182,24/forecast
 
 
 # p get_weather_alerts('ID')['features'][0]['properties']['description']
 # properties for each alert in array
 # nt", "effective", "onset", "expires", "ends", "status", "messageType", "category", "severity", "certainty", "urgency", "event", "sender", "senderName", "headline", "description", "instruction", "response", "parameters"]
+
+
+#https://forecast.weather.gov/stations.php
