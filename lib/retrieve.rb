@@ -2,15 +2,17 @@
 
 require 'httparty'
 
-alerts = 'https://api.weather.gov/alerts/active?area=ID'
 
-
-def make_request(url)
-
-
-response = HTTParty.get(url)
-puts response.body if response.code == 200
-
+def get_weather_alerts(state)
+ weathergov_request('https://api.weather.gov/alerts/active?area=' + state)
 end
 
-p make_request(alerts)
+
+def weathergov_request(url)
+response = HTTParty.get(url)
+response.parsed_response if response.code == 200
+end
+
+
+## EXAMPLES ##
+#p get_weather_alerts('ID')
