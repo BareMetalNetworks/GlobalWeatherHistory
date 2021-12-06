@@ -19,7 +19,10 @@ def weathergov_request(url)
   JSON.parse(response.body)
 end
 
-p get_forecast('BOI/182,24')
+#p get_forecast('BOI/182,24')
+station_id = "KTWF"
+p HTTParty.get(URI.parse("http://www.weather.gov/xml/current_obs/#{station_id}"))
+
 
 __END__
 # STATION
@@ -35,3 +38,4 @@ __END__
 
 
 #https://forecast.weather.gov/stations.php
+https://forecast.weather.gov/data/obhistory/KTWF.html
