@@ -3,16 +3,6 @@
 require 'httparty'
 require 'json'
 
-def get_forecast(station)
-  weathergov_request('https://api.weather.gov/gridpoints/' +
-     station + '/forecast')
-end
-
-def get_weather_alerts(state)
- weathergov_request('https://api.weather.gov/alerts/active?area=' + state)
-end
-
-
 def weathergov_request(url)
   response = HTTParty.get(url)
   response.body if response.code == 200
@@ -20,13 +10,26 @@ def weathergov_request(url)
 end
 
 #p get_forecast('BOI/182,24')
-station_id = "KTWF"
-p HTTParty.get(URI.parse("http://www.weather.gov/xml/current_obs/#{station_id}"))
+# maybe this can be retrieved using station_id instead of a gridpoint
+def get_forecast(station)
+  weathergov_request('https://api.weather.gov/gridpoints/' +
+     station + '/forecast')
+end
+
+#p get_weather_alerts("ID")
+def get_weather_alerts(state)
+ weathergov_request('https://api.weather.gov/alerts/active?area=' + state)
+end
+
+#p get_current_observations("KTWF")
+def get_current_observations(station)
+ weathergov_request("https://api.weather.gov/stations/#{station}/observations")
+end
 
 
 __END__
 # STATION
-# stationId TWF
+# stationId KTWF
 # FORECAST
 
 # https://api.weather.gov/gridpoints/BOI/182,24/forecast
