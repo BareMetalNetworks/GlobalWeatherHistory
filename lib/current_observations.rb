@@ -8,6 +8,7 @@ class CurrentObservations
     @station = station
     @state = state
     @response = []
+    @raw_current = []
     @current = []
     @forecast = []
     @alerts = []
@@ -18,7 +19,14 @@ class CurrentObservations
   end
 
   def get_current
-    @current = request("https://api.weather.gov/stations/#{@station_id}/observations")
+    @raw_current = request("https://api.weather.gov/stations/#{@station_id}/observations")
+
+    @raw_current["features"].each do |c|
+
+      c["properties"].each do |p|
+
+      end
+    end
   end
 
   def get_forecast
@@ -31,5 +39,5 @@ end
 
 
 c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
-p c.get_current
+ c.get_current
 #p c.get_forecast

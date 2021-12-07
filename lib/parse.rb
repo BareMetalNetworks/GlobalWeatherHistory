@@ -1,10 +1,10 @@
-require_relative "retrieve.rb"
+require_relative "current_observations"
 
-def parse_current_observations(station)
-  get_current_observations(station)
-end
+c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
+ c.get_current
 
-b = parse_current_observations("KTWF")
+
+__END__
 
 d = b["features"]
 p d[166]["properties"]["timestamp"]
@@ -12,7 +12,6 @@ p d[166]["properties"]["timestamp"]
 data = d[166]["properties"]["presentWeather"]
 p data
 
-__END__
 ["@id", "@type", "elevation", "station", "timestamp",
   "rawMessage", "textDescription", "icon", "presentWeather",
   "temperature", "dewpoint", "windDirection", "windSpeed",

@@ -1,5 +1,4 @@
 ## Retrieve Weather Data
-
 require 'httparty'
 require 'json'
 
