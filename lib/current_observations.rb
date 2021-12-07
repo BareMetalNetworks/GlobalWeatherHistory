@@ -1,6 +1,12 @@
 require 'httparty'
 require 'json'
 
+class Observation
+  def initialize(timestamp)
+    @timestamp = timestamp
+  end
+end
+
 class CurrentObservations
   attr_reader :current, :forecast, :alerts
   def initialize(station_id, station, state)
@@ -9,7 +15,7 @@ class CurrentObservations
     @state = state
     @response = []
     @raw_current = []
-    @current = []
+    @current = [] #AoH
     @forecast = []
     @alerts = []
   end
@@ -22,10 +28,11 @@ class CurrentObservations
     @raw_current = request("https://api.weather.gov/stations/#{@station_id}/observations")
 
     @raw_current["features"].each do |c|
-
-      c["properties"].each do |p|
-
-      end
+      p c["properties"].keys
+      @current.push(Observation.new(c["properties"]["timestamp"]))
+      # c["properties"].each do |p|
+      #     p p[1..10]
+      # end
     end
   end
 
@@ -40,4 +47,5 @@ end
 
 c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
  c.get_current
+ p c.current
 #p c.get_forecast
