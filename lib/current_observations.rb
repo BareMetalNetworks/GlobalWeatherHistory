@@ -2,8 +2,28 @@ require 'httparty'
 require 'json'
 
 class Observation
-  def initialize(timestamp)
-    @timestamp = timestamp
+  attr_reader :obs, :timestamp
+  def initialize(p)
+    @obs = p
+    @timestamp = p["timestamp"]
+    @presentWeather = p["presentWeather"]
+    @dewPoint = p["dewPoint"]
+    @temperature = p["temperature"]
+    @windDirection = p["windDirection"]
+    @windSpeed = p["windSpeed"]
+    @windGust = p["windGust"]
+    @pressure = p["barometricPressure"]
+    @seaLevelPressure = p["seaLevelPressure"]
+    @visibility = p["visibility"]
+    @maxTemp = p["maxTemperatureLast24Hours"]
+    @minTemp = p["minTemperatureLast24Hours"]
+    @precipLastHour = p["preciptationLastHour"]
+    @precipLast3Hours = p["preciptationLast3Hours"]
+    @precipLast6Hours = p["preciptationLast6Hours"]
+    @humidity = p["realtiveHumidity"]
+    @windChill = p["windChill"]
+    @heatIndex = p["heatIndex"]
+    @cloudLayers = p["cloudLayers"]
   end
 end
 
@@ -25,27 +45,36 @@ class CurrentObservations
   end
 
   def get_current
-    @raw_current = request("https://api.weather.gov/stations/#{@station_id}/observations")
+    @raw_current =
+      request("https://api.weather.gov/stations/#{@station_id}/observations")
 
     @raw_current["features"].each do |c|
-      p c["properties"].keys
-      @current.push(Observation.new(c["properties"]["timestamp"]))
-      # c["properties"].each do |p|
-      #     p p[1..10]
-      # end
+      @current.push(Observation.new(c["properties"]))
     end
   end
 
   def get_forecast
-    @forecast = request("https://api.weather.gov/gridpoints/#{@station}/forecast")
+    @forecast =
+      request("https://api.weather.gov/gridpoints/#{@station}/forecast")
   end
   def get_alerts
-    @alerts = request("https://api.weather.gov/alerts/active?area=#{@state}")
+    @alerts =
+      request("https://api.weather.gov/alerts/active?area=#{@state}")
   end
 end
 
 
 c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
  c.get_current
- p c.current
+p c.current[0].obs["timestamp"]
 #p c.get_forecast
+
+__END__
+["@id", "@type", "elevation", "station", "timestamp",
+  "rawMessage", "textDescription", "icon", "presentWeather",
+  "temperature", "dewpoint", "windDirection", "windSpeed",
+   "windGust", "barometricPressure", "seaLevelPressure",
+   "visibility", "maxTemperatureLast24Hours", "minTemperatureLast24Hours",
+    "precipitationLastHour", "precipitationLast3Hours",
+     "precipitationLast6Hours", "relativeHumidity", "windChill",
+      "heatIndex", "cloudLayers"]
