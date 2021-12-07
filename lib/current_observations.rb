@@ -2,8 +2,10 @@ require 'httparty'
 require 'json'
 
 class CurrentObservations
-  def initialize(station)
+  def initialize(station_id, station, state)
+    @station_id = station_id # reduce to one id
     @station = station
+    @state = state
     @response = []
   end
 
@@ -14,11 +16,18 @@ class CurrentObservations
   end
 
   def get_current
-    request("https://api.weather.gov/stations/#{@station}/observations")
+    request("https://api.weather.gov/stations/#{@station_id}/observations")
   end
 
-
+  def get_forecast
+    request("https://api.weather.gov/gridpoints/#{@station}/forecast")
+  end
+  def get_alerts
+    request("https://api.weather.gov/alerts/active?area=#{@state}")
+  end
 end
 
-c = CurrentObservations.new("KTWF")
-p c.get_current
+
+#c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
+#p c.get_current
+#p c.get_forecast
