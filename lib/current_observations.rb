@@ -66,7 +66,7 @@ end
 
 c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
  c.get_current
-p c.current[0].obs["timestamp"]
+p c.current[1].timestamp
 #p c.get_forecast
 
 __END__
