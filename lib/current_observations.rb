@@ -2,13 +2,16 @@ require 'httparty'
 require 'json'
 
 class Observation
-  attr_reader :obs, :timestamp
+  attr_reader :obs, :timestamp, :temperature, :presentWeather, :dewPoint,
+    :windDirection, :windSpeed, :windGust, :pressure, :seaLevelPressure,
+    :visibility, :maxTemp, :minTemp, :precipLastHour, :precipLast6Hours,
+    :humidity, :windChill, :heatIndex, :cloudLayers
   def initialize(p)
     @obs = p
     @timestamp = p["timestamp"]
     @presentWeather = p["presentWeather"]
     @dewPoint = p["dewPoint"]
-    @temperature = p["temperature"]
+    @temperature = p["temperature"]["value"]
     @windDirection = p["windDirection"]
     @windSpeed = p["windSpeed"]
     @windGust = p["windGust"]
@@ -64,9 +67,9 @@ class CurrentObservations
 end
 
 
-c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
- c.get_current
-p c.current[1].timestamp
+# c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
+#  c.get_current
+# p c.current[1].timestamp
 #p c.get_forecast
 
 __END__

@@ -1,16 +1,38 @@
-require 'csv'
-require 'sqlite3'
-require 'active_record'
-require 'pry'
-require_relative 'libdb'
+require 'json'
+require 'redis'
+require_relative 'lib/current_observations'
+require_relative 'lib/database'
 
-# Connect to an in-memory sqlite3 database
-ActiveRecord::Base.establish_connection(
-  adapter: 'sqlite3',
-  database: './database'
-)
+redis = Redis.new
 
-p History.all.count
+c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
+ c.get_current
+p c.current[1].temperature
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 __END__
 
