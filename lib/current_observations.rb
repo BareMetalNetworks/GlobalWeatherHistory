@@ -4,21 +4,25 @@ require 'json'
 class Observation
   attr_reader :obs, :timestamp, :temperature, :presentWeather, :dewPoint,
     :windDirection, :windSpeed, :windGust, :pressure, :seaLevelPressure,
-    :visibility, :maxTemp, :minTemp, :precipLastHour, :precipLast6Hours,
-    :humidity, :windChill, :heatIndex, :cloudLayers
+    :visibility, :maxTemp, :minTemp, :precipLastHour, :precipLast3Hours,
+    :precipLast6Hours, :humidity, :windChill, :heatIndex, :cloudLayers
   def initialize(p)
     @obs = p
     @timestamp = p["timestamp"]
+    @temperature = p["temperature"]["value"]
+    @windDirection = p["windDirection"]["value"]
+    @windSpeed = p["windSpeed"]["value"]
+    @windGust = p["windGust"]["value"]
+    @pressure = p["barometricPressure"]["value"]
+    @seaLevelPressure = p["seaLevelPressure"]["value"]
+    @visibility = p["visibility"]["value"]
+
+
     @presentWeather = p["presentWeather"]
     @dewPoint = p["dewPoint"]
-    @temperature = p["temperature"]["value"]
-    @windDirection = p["windDirection"]
-    @windSpeed = p["windSpeed"]
-    @windGust = p["windGust"]
-    @pressure = p["barometricPressure"]
-    @seaLevelPressure = p["seaLevelPressure"]
-    @visibility = p["visibility"]
-    @maxTemp = p["maxTemperatureLast24Hours"]
+
+
+    @maxTemp = p["maxTemperatureLast24Hours"]["value"]
     @minTemp = p["minTemperatureLast24Hours"]
     @precipLastHour = p["preciptationLastHour"]
     @precipLast3Hours = p["preciptationLast3Hours"]

@@ -10,8 +10,11 @@ c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
 p c.current[1].temperature
 
 
-
-
+__END__
+obs, :timestamp, :temperature, :presentWeather, :dewPoint,
+  :windDirection, :windSpeed, :windGust, :pressure, :seaLevelPressure,
+  :visibility, :maxTemp, :minTemp, :precipLastHour, :precipLast6Hours,
+  :humidity, :windChill, :heatIndex, :cloudLayers
 
 
 
