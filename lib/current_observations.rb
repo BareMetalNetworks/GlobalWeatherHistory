@@ -5,10 +5,12 @@ class Observation
   attr_reader :obs, :timestamp, :temperature, :presentWeather, :dewPoint,
     :windDirection, :windSpeed, :windGust, :pressure, :seaLevelPressure,
     :visibility, :maxTemp, :minTemp, :precipLastHour, :precipLast3Hours,
-    :precipLast6Hours, :humidity, :windChill, :heatIndex, :cloudLayers
+    :precipLast6Hours, :humidity, :windChill, :heatIndex, :cloudLayers, :key
   def initialize(p)
+    @key = create_primary_key(p["timestamp"])
     @obs = p
     @timestamp = p["timestamp"]
+
     @temperature = p["temperature"]["value"]
     @windDirection = p["windDirection"]["value"]
     @windSpeed = p["windSpeed"]["value"]
@@ -31,6 +33,12 @@ class Observation
     @windChill = p["windChill"]
     @heatIndex = p["heatIndex"]
     @cloudLayers = p["cloudLayers"]
+  end
+
+  def create_primary_key(raw_timestamp) # 2021-12-09T03:53:00+00:00
+    b = DateTime.parse(raw_timestamp)
+    Time.new(b.year, b.month, b.day, b.hour, b.minute).to_i
+
   end
 end
 

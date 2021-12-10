@@ -7,9 +7,12 @@ redis = Redis.new
 
 c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
  c.get_current
-p c.current[1].temperature
+ p c.current[0].timestamp + ' ' + c.current[0].temperature.to_s
+p c.current[0].timestamp.to_i
 
-
+c.current.each_with_index do |x,i|
+  p "Index: #{i} Timestamp: #{x.timestamp} Primary: #{x.key}"
+end
 __END__
 obs, :timestamp, :temperature, :presentWeather, :dewPoint,
   :windDirection, :windSpeed, :windGust, :pressure, :seaLevelPressure,
