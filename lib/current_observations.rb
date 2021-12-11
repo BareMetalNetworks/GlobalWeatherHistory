@@ -25,21 +25,26 @@ class Observation
 
 
     @maxTemp = p["maxTemperatureLast24Hours"]["value"]
-    @minTemp = p["minTemperatureLast24Hours"]
+    @minTemp = p["minTemperatureLast24Hours"]["value"]
     @precipLastHour = p["preciptationLastHour"]
     @precipLast3Hours = p["preciptationLast3Hours"]
     @precipLast6Hours = p["preciptationLast6Hours"]
     @humidity = p["realtiveHumidity"]
-    @windChill = p["windChill"]
-    @heatIndex = p["heatIndex"]
-    @cloudLayers = p["cloudLayers"]
+    @windChill = p["windChill"]["value"]
+    @heatIndex = p["heatIndex"]["value"]
+    @cloudLayers = get_cloud_layers(p["cloudLayers"])
   end
+
+def get_cloud_layers(l)
+  return "UNK" if l[0].nil?
+  l[0]["amount"]
+end
 
   def create_primary_key(raw_timestamp) # 2021-12-09T03:53:00+00:00
     b = DateTime.parse(raw_timestamp)
     Time.new(b.year, b.month, b.day, b.hour, b.minute).to_i
   end
-  
+
   def convert_c_to_f(temp)
     temp.to_f * 9.0 / 5.0 + 32
   end
