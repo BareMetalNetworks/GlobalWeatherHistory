@@ -11,9 +11,9 @@ class Observation
   #  @obs = p
     @timestamp = p["timestamp"]
     @temperature = convert_c_to_f(p["temperature"]["value"])
-    @windDirection = p["windDirection"]["value"]
+    @windDirection = wind_direction_nil_guard(p["windDirection"]["value"])
     @windSpeed = p["windSpeed"]["value"]
-    @windGust = p["windGust"]["value"]
+    @windGust = wind_gust_nil_guard(p["windGust"]["value"])
     @pressure = p["barometricPressure"]["value"]
     @seaLevelPressure = p["seaLevelPressure"]["value"]
     @visibility = p["visibility"]["value"]
@@ -30,12 +30,20 @@ class Observation
     @cloudLayers = get_cloud_layers(p["cloudLayers"])
   end
 
+def wind_direction_nil_guard(d)
+  d ? d.truncate(2) : 0.0
+end
+
+def wind_gust_nil_guard(g)
+  g ? g.truncate(2) : 0.0
+end
+
 def truncate_wind_chill(w)
-#  w.truncate(2)
+  w ? w.truncate(2) : 0.0
 end
 
 def precip_nil_guard(p)
-  p ? p : 0
+  p ? p : 0.0
 end
 
 def get_cloud_layers(l)
