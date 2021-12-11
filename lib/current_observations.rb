@@ -8,7 +8,7 @@ class Observation
     :precipLast6Hours, :humidity, :windChill, :heatIndex, :cloudLayers, :key
   def initialize(p)
     @key = create_primary_key(p["timestamp"])
-    @obs = p
+  #  @obs = p
     @timestamp = p["timestamp"]
     @temperature = convert_c_to_f(p["temperature"]["value"])
     @windDirection = p["windDirection"]["value"]
@@ -17,18 +17,26 @@ class Observation
     @pressure = p["barometricPressure"]["value"]
     @seaLevelPressure = p["seaLevelPressure"]["value"]
     @visibility = p["visibility"]["value"]
-    @presentWeather = p["presentWeather"]
-    @dewPoint = p["dewPoint"]
-    @maxTemp = p["maxTemperatureLast24Hours"]["value"]
-    @minTemp = p["minTemperatureLast24Hours"]["value"]
-    @precipLastHour = p["preciptationLastHour"]
-    @precipLast3Hours = p["preciptationLast3Hours"]
-    @precipLast6Hours = p["preciptationLast6Hours"]
-    @humidity = p["realtiveHumidity"]
-    @windChill = p["windChill"]["value"]
-    @heatIndex = p["heatIndex"]["value"]
+  #  @presentWeather = p["presentWeather"]
+  #  @dewPoint = p["dewPoint"]
+  #  @maxTemp = p["maxTemperatureLast24Hours"]["value"]
+  #  @minTemp = p["minTemperatureLast24Hours"]["value"]
+    @precipLastHour = precip_nil_guard(p["preciptationLastHour"])
+  #  @precipLast3Hours = p["preciptationLast3Hours"]
+  #  @precipLast6Hours = p["preciptationLast6Hours"]
+  #  @humidity = p["realtiveHumidity"]
+    @windChill = truncate_wind_chill(p["windChill"]["value"])
+  #  @heatIndex = p["heatIndex"]["value"]
     @cloudLayers = get_cloud_layers(p["cloudLayers"])
   end
+
+def truncate_wind_chill(w)
+#  w.truncate(2)
+end
+
+def precip_nil_guard(p)
+  p ? p : 0
+end
 
 def get_cloud_layers(l)
   return "UNK" if l[0].nil?
