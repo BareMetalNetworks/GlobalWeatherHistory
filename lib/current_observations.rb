@@ -10,7 +10,6 @@ class Observation
     @key = create_primary_key(p["timestamp"])
     @obs = p
     @timestamp = p["timestamp"]
-
     @temperature = convert_c_to_f(p["temperature"]["value"])
     @windDirection = p["windDirection"]["value"]
     @windSpeed = p["windSpeed"]["value"]
@@ -18,12 +17,8 @@ class Observation
     @pressure = p["barometricPressure"]["value"]
     @seaLevelPressure = p["seaLevelPressure"]["value"]
     @visibility = p["visibility"]["value"]
-
-
     @presentWeather = p["presentWeather"]
     @dewPoint = p["dewPoint"]
-
-
     @maxTemp = p["maxTemperatureLast24Hours"]["value"]
     @minTemp = p["minTemperatureLast24Hours"]["value"]
     @precipLastHour = p["preciptationLastHour"]
@@ -46,7 +41,7 @@ end
   end
 
   def convert_c_to_f(temp)
-    temp.to_f * 9.0 / 5.0 + 32
+    (temp.to_f * 9.0 / 5.0 + 32).truncate(2)
   end
 end
 
