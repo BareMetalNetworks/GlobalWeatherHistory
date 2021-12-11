@@ -18,7 +18,7 @@ class Observation
     @seaLevelPressure = p["seaLevelPressure"]["value"]
     @visibility = p["visibility"]["value"]
   #  @presentWeather = p["presentWeather"]
-  #  @dewPoint = p["dewPoint"]
+    @dewPoint = dewpoint_nil_guard(p["dewPoint"])
   #  @maxTemp = p["maxTemperatureLast24Hours"]["value"]
   #  @minTemp = p["minTemperatureLast24Hours"]["value"]
     @precipLastHour = precip_nil_guard(p["preciptationLastHour"])
@@ -29,6 +29,10 @@ class Observation
   #  @heatIndex = p["heatIndex"]["value"]
     @cloudLayers = get_cloud_layers(p["cloudLayers"])
   end
+
+def dewpoint_nil_guard(d)
+  d ? d : 0.0
+end
 
 def wind_direction_nil_guard(d)
   d ? d.truncate(2) : 0.0
