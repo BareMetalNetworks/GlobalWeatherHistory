@@ -141,28 +141,28 @@ p s
   c.get_current
 
  c.current.each do |p|
-   p p["timestamp"]
-  #  o = Observation.create!(raw_date: p["timestamp"] )
-#    s.observations << o
+    o = Observation.create!(raw_date: p["timestamp"],
+      temperature: p["temperature"]["value"],
+      dew_point: p["dewPoint"],
+      station_pressure: p["barometricPressure"]["value"],
+      sea_level_pressure: p["seaLevelPressure"]["value"],
+      visibility: p["visibility"]["value"],
+      wind_speed: p["windSpeed"]["value"],
+      wind_gust: p["windGust"]["value"],
+      max_temp: p["maxTemperatureLast24Hours"]["value"],
+      min_temp:  p["minTemperatureLast24Hours"]["value"],
+      precipitation: p["preciptationLastHour"],
+      heat_index: p["heatIndex"]["value"],
+      cloud_layers: p["cloudLayers"],
+      humidity: p["realtiveHumidity"],
+      wind_chill: p["windChill"]["value"],
+      wind_direction: p["windDirection"]["value"]
+ )
+    s.observations << o
 end
 
- #p s.observations
+p s.observations
 
-# t.float :dew_point
-# t.float :temeprature
-# t.float :station_pressure
-# t.float :sea_level_pressure
-# t.float :visibility
-# t.float :wind_speed
-# t.float :wind_gust
-# t.float :max_temp
-# t.float :min_temp
-# t.float :precipitation
-# t.float :heat_index
-# t.string :cloud_layers
-# t.float :humidity
-# t.float :wind_chill
-# t.float :wind_direction
 # s.observations << o
 # p s.observations
 
