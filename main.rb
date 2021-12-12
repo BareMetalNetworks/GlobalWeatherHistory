@@ -1,12 +1,12 @@
 require 'json'
 require 'redis'
 require_relative 'lib/current_observations'
-require_relative 'lib/database'
+#require_relative 'lib/database'
 
 redis = Redis.new
 
 c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
- c.get_current
+obs =  c.get_current
 
 c.current.each do |obs|
   p obs

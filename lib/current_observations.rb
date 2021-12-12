@@ -1,35 +1,85 @@
 require 'httparty'
 require 'json'
+require 'active_record'
 
-class Observation
-  attr_reader :obs, :timestamp, :temperature, :presentWeather, :dewPoint,
-    :windDirection, :windSpeed, :windGust, :pressure, :seaLevelPressure,
-    :visibility, :maxTemp, :minTemp, :precipLastHour, :precipLast3Hours,
-    :precipLast6Hours, :humidity, :windChill, :heatIndex, :cloudLayers, :key
-  def initialize(p)
-    @key = create_primary_key(p["timestamp"])
-  #  @obs = p
-    @timestamp = p["timestamp"]
-    @temperature = convert_c_to_f(p["temperature"]["value"])
-    @windDirection = wind_direction_nil_guard(p["windDirection"]["value"])
-    @windSpeed = p["windSpeed"]["value"]
-    @windGust = wind_gust_nil_guard(p["windGust"]["value"])
-    @pressure = p["barometricPressure"]["value"]
-    @seaLevelPressure = p["seaLevelPressure"]["value"]
-    @visibility = p["visibility"]["value"]
-  #  @presentWeather = p["presentWeather"]
-    @dewPoint = dewpoint_nil_guard(p["dewPoint"])
-  #  @maxTemp = p["maxTemperatureLast24Hours"]["value"]
-  #  @minTemp = p["minTemperatureLast24Hours"]["value"]
-    @precipLastHour = precip_nil_guard(p["preciptationLastHour"])
-  #  @precipLast3Hours = p["preciptationLast3Hours"]
-  #  @precipLast6Hours = p["preciptationLast6Hours"]
-  #  @humidity = p["realtiveHumidity"]
-    @windChill = truncate_wind_chill(p["windChill"]["value"])
-  #  @heatIndex = p["heatIndex"]["value"]
-    @cloudLayers = get_cloud_layers(p["cloudLayers"])
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: './database'
+)
+
+
+ActiveRecord::Schema.define do
+    create_table :observations, force: true do |t|
+      t.integer :epoch
+      #t.string :location
+      t.date :capture
+      #t.float :lat
+      #t.float :long
+      #t.float :elevation
+      #t.float :temp_avg
+      t.float :dew_point
+      t.float :temeprature
+      t.float :station_pressure
+      t.float :sea_level_pressure
+      t.float :visibility
+      t.float :wind_speed
+      t.float :wind_gust
+      t.float :max_temp
+      t.float :min_temp
+      t.float :precipitation
+      t.float :heat_index
+      t.string :cloud_layers
+      t.float :humidity
+      t.float :wind_chill
+      t.float :wind_direction
+      t.timestamps
+      t.belongs_to :station, index: true
+    end
+
+      create_table :stations, force: true do |t|
+        t.string :location
+        t.float :lat
+        t.float :long
+        t.float :elevation
+        t.string :name
+    end
   end
 
+class Station < ActiveRecord::Base
+  has_many :observations
+end
+
+class Observation < ActiveRecord::Base
+  belongs_to :station
+end
+
+class Foo
+  def initialize()
+  #   @key = create_primary_key(p["timestamp"])
+  # #  @obs = p
+  #   @timestamp = p["timestamp"]
+  #   @temperature = convert_c_to_f(p["temperature"]["value"])
+  #   @windDirection = wind_direction_nil_guard(p["windDirection"]["value"])
+  #   @windSpeed = p["windSpeed"]["value"] || 0.0
+  #   @windGust = wind_gust_nil_guard(p["windGust"]["value"])
+  #   @pressure = p["barometricPressure"]["value"]
+  #   @seaLevelPressure = p["seaLevelPressure"]["value"]
+  #   @visibility = p["visibility"]["value"]
+  # #  @presentWeather = p["presentWeather"]
+  #   @dewPoint = dewpoint_nil_guard(p["dewPoint"])
+  #   @maxTemp = p["maxTemperatureLast24Hours"]["value"]
+  #   @minTemp = p["minTemperatureLast24Hours"]["value"]
+  #   @precipLastHour = precip_nil_guard(p["preciptationLastHour"])
+  # #  @precipLast3Hours = p["preciptationLast3Hours"]
+  # #  @precipLast6Hours = p["preciptationLast6Hours"]
+  # #  @humidity = p["realtiveHumidity"]
+  #   @windChill = truncate_wind_chill(p["windChill"]["value"])
+  # #  @heatIndex = p["heatIndex"]["value"]
+  #   @cloudLayers = get_cloud_layers(p["cloudLayers"])
+  end
+
+
+# replace with || 0.0
 def dewpoint_nil_guard(d)
   d ? d : 0.0
 end
@@ -87,8 +137,9 @@ class CurrentObservations
       request("https://api.weather.gov/stations/#{@station_id}/observations")
 
     @raw_current["features"].each do |c|
-      @current.push(Observation.new(c["properties"]))
+      @current.push(Observation.create!(c["properties"]))
     end
+    #@current
   end
 
   def get_forecast
@@ -101,6 +152,14 @@ class CurrentObservations
   end
 end
 
+s = Station.create(name: "Foo")
+p s
+
+o = Observation.create
+p o
+
+s.observations << o
+p s.observations
 
 # c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
 #  c.get_current
