@@ -14,10 +14,10 @@ ActiveRecord::Schema.define do
     t.float :lat
     t.float :long
     t.float :elevation
-    t.string :name
+    t.string :station_name
     t.string :station_id
     t.string :state
-    t.string :readable_name
+    t.string :name
 end
 
     create_table :observations, force: true do |t|
@@ -53,6 +53,20 @@ end
 
 class Station < ActiveRecord::Base
   has_many :observations
+
+  def request(url)
+    @response = JSON.parse(HTTParty.get(url).body)
+  end
+
+  def get_current
+    @raw_current =
+      request("https://api.weather.gov/stations/#{@station_id}/observations")
+
+    @raw_current["features"].each do |c|
+      @current.push(c["properties"])
+    end
+    #@current
+  end
 end
 
 class Observation < ActiveRecord::Base
@@ -112,8 +126,8 @@ class CurrentObservations
   end
 end
 
-s = Station.create(name: "KTWF", station_id: 'BOI/182,24', state: "ID",
-        readable_name: "Joslin Field")
+s = Station.create(station_name: "KTWF", station_id: 'BOI/182,24', state: "ID",
+        name: "Joslin Field")
 p s
 
 
