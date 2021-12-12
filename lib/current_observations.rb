@@ -78,28 +78,6 @@ class Foo
   #   @cloudLayers = get_cloud_layers(p["cloudLayers"])
   end
 
-
-# replace with || 0.0
-def dewpoint_nil_guard(d)
-  d ? d : 0.0
-end
-
-def wind_direction_nil_guard(d)
-  d ? d.truncate(2) : 0.0
-end
-
-def wind_gust_nil_guard(g)
-  g ? g.truncate(2) : 0.0
-end
-
-def truncate_wind_chill(w)
-  w ? w.truncate(2) : 0.0
-end
-
-def precip_nil_guard(p)
-  p ? p : 0.0
-end
-
 def get_cloud_layers(l)
   return "UNK" if l[0].nil?
   l[0]["amount"]
