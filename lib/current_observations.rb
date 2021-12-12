@@ -17,7 +17,7 @@ ActiveRecord::Schema.define do
     t.string :name
     t.string :station_id
     t.string :state
-    t.string :station_name
+    t.string :readable_name
 end
 
     create_table :observations, force: true do |t|
@@ -112,30 +112,11 @@ class CurrentObservations
   end
 end
 
-s = Station.create(name: "Foo")
+s = Station.create(name: "KTWF", station_id: 'BOI/182,24', state: "ID",
+        readable_name: "Joslin Field")
 p s
 
-#   @key = create_primary_key(p["timestamp"])
-# #  @obs = p
-#   @timestamp = p["timestamp"]
-#   @temperature = convert_c_to_f(p["temperature"]["value"])
-#   @windDirection = wind_direction_nil_guard(p["windDirection"]["value"])
-#   @windSpeed = p["windSpeed"]["value"] || 0.0
-#   @windGust = wind_gust_nil_guard(p["windGust"]["value"])
-#   @pressure = p["barometricPressure"]["value"]
-#   @seaLevelPressure = p["seaLevelPressure"]["value"]
-#   @visibility = p["visibility"]["value"]
-# #  @presentWeather = p["presentWeather"]
-#   @dewPoint = dewpoint_nil_guard(p["dewPoint"])
-#   @maxTemp = p["maxTemperatureLast24Hours"]["value"]
-#   @minTemp = p["minTemperatureLast24Hours"]["value"]
-#   @precipLastHour = precip_nil_guard(p["preciptationLastHour"])
-# #  @precipLast3Hours = p["preciptationLast3Hours"]
-# #  @precipLast6Hours = p["preciptationLast6Hours"]
-# #  @humidity = p["realtiveHumidity"]
-#   @windChill = truncate_wind_chill(p["windChill"]["value"])
-# #  @heatIndex = p["heatIndex"]["value"]
-#   @cloudLayers = get_cloud_layers(p["cloudLayers"])
+
 
  c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
   c.get_current
@@ -161,7 +142,7 @@ p s
     s.observations << o
 end
 
-p s.observations
+p s.observations.count
 
 # s.observations << o
 # p s.observations
