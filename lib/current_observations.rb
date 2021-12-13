@@ -14,7 +14,7 @@ ActiveRecord::Schema.define do
     t.float :lat
     t.float :long
     t.float :elevation
-    t.string :station_name
+    t.string :station_grid
     t.string :station_id
     t.string :state
     t.string :name
@@ -25,9 +25,6 @@ end
       #t.string :location
       t.date :capture
       t.string :raw_date
-      #t.float :lat
-      #t.float :long
-      #t.float :elevation
       #t.float :temp_avg
       t.float :dew_point
       t.float :temperature
@@ -58,7 +55,7 @@ class Station < ActiveRecord::Base
     @response = JSON.parse(HTTParty.get(url).body)
   end
 
-  def get_current
+  def get_current_observations
     @raw_current =
       request("https://api.weather.gov/stations/#{@station_id}/observations")
 
@@ -126,7 +123,7 @@ class CurrentObservations
   end
 end
 
-s = Station.create(station_name: "KTWF", station_id: 'BOI/182,24', state: "ID",
+s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
 p s
 
@@ -137,26 +134,28 @@ p s
 
  c.current.each do |p|
     o = Observation.create!(raw_date: p["timestamp"],
-      temperature: p["temperature"]["value"],
-      dew_point: p["dewPoint"],
-      station_pressure: p["barometricPressure"]["value"],
-      sea_level_pressure: p["seaLevelPressure"]["value"],
-      visibility: p["visibility"]["value"],
-      wind_speed: p["windSpeed"]["value"],
-      wind_gust: p["windGust"]["value"],
-      max_temp: p["maxTemperatureLast24Hours"]["value"],
-      min_temp:  p["minTemperatureLast24Hours"]["value"],
-      precipitation: p["preciptationLastHour"],
-      heat_index: p["heatIndex"]["value"],
-      cloud_layers: p["cloudLayers"],
-      humidity: p["realtiveHumidity"],
-      wind_chill: p["windChill"]["value"],
-      wind_direction: p["windDirection"]["value"]
+      temperature: p["temperature"]["value"]|| 0.0,
+      dew_point: p["dewPoint"] || 0.0,
+      station_pressure: p["barometricPressure"]["value"] || 0.0,
+      sea_level_pressure: p["seaLevelPressure"]["value"] || 0.0,
+      visibility: p["visibility"]["value"] || 0.0,
+      wind_speed: p["windSpeed"]["value"] || 0.0 ,
+      wind_gust: p["windGust"]["value"] || 0.0,
+      max_temp: p["maxTemperatureLast24Hours"]["value"] || 0.0,
+      min_temp:  p["minTemperatureLast24Hours"]["value"] || 0.0,
+      precipitation: p["preciptationLastHour"] || 0.0,
+      heat_index: p["heatIndex"]["value"] || 0.0,
+      cloud_layers: p["cloudLayers"] || 0.0,
+      humidity: p["realtiveHumidity"] || 0.0,
+      wind_chill: p["windChill"]["value"] || 0.0,
+      wind_direction: p["windDirection"]["value"] || 0.0
  )
     s.observations << o
+    s.save!
 end
 
 p s.observations.count
+p s.observations.first
 
 # s.observations << o
 # p s.observations
