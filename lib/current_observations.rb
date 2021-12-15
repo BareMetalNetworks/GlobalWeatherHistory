@@ -44,8 +44,6 @@ end
       t.timestamps
       t.belongs_to :station, index: true
     end
-
-
   end
 
 class Station < ActiveRecord::Base
@@ -94,18 +92,10 @@ class Station < ActiveRecord::Base
       end
    end
 end
-   #    self.observations << o
-   #    self.save!
-     #end
-
 
 
 class Observation < ActiveRecord::Base
   belongs_to :station
-
-
-
-  #
   # def get_cloud_layers(l)
   #   return "UNK" if l[0].nil?
   #   l[0]["amount"]
@@ -122,84 +112,11 @@ class Observation < ActiveRecord::Base
 
 end
 
-class CurrentObservations
-  attr_reader :current, :forecast, :alerts
-  def initialize(station_id, station, state)
-    @station_id = station_id # reduce to one id
-    @station = station
-    @state = state
-    @response = []
-    @raw_current = []
-    @current =[]
-    @forecast = []
-    @alerts = []
-  end
-
-  def request(url)
-    @response = JSON.parse(HTTParty.get(url).body)
-  end
-
-  def get_current
-    @raw_current =
-      request("https://api.weather.gov/stations/#{@station_id}/observations")
-
-    @raw_current["features"].each do |c|
-      @current.push(c["properties"])
-    end
-    #@current
-  end
-
-  def get_forecast
-    @forecast =
-      request("https://api.weather.gov/gridpoints/#{@station}/forecast")
-  end
-  def get_alerts
-    @alerts =
-      request("https://api.weather.gov/alerts/active?area=#{@state}")
-  end
-end
-
 s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
 p s
 
-p s.get_alerts
-
-#   c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
-#     c.get_current
-#
-#  c.current.each do |p|
-#     o = Observation.create!(raw_date: p["timestamp"],
-#       temperature: p["temperature"]["value"]|| 0.0,
-#       dew_point: p["dewPoint"] || 0.0,
-#       station_pressure: p["barometricPressure"]["value"] || 0.0,
-#       sea_level_pressure: p["seaLevelPressure"]["value"] || 0.0,
-#       visibility: p["visibility"]["value"] || 0.0,
-#       wind_speed: p["windSpeed"]["value"] || 0.0 ,
-#       wind_gust: p["windGust"]["value"] || 0.0,
-#       max_temp: p["maxTemperatureLast24Hours"]["value"] || 0.0,
-#       min_temp:  p["minTemperatureLast24Hours"]["value"] || 0.0,
-#       precipitation: p["preciptationLastHour"] || 0.0,
-#       heat_index: p["heatIndex"]["value"] || 0.0,
-#       cloud_layers: p["cloudLayers"] || 0.0,
-#       humidity: p["realtiveHumidity"] || 0.0,
-#       wind_chill: p["windChill"]["value"] || 0.0,
-#       wind_direction: p["windDirection"]["value"] || 0.0
-#  )
-#     s.observations << o
-#     s.save!
-# end
-#
-# p s.observations.count
-# p s.observations.first
-
-# s.observations << o
-# p s.observations
-
-# c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
-#  c.get_current
-# p c.current[1].timestamp
-#p c.get_forecast
+p s.get_forecast
 
 __END__
 ["@id", "@type", "elevation", "station", "timestamp",
