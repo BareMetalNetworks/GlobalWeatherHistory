@@ -56,6 +56,30 @@ class Station < ActiveRecord::Base
   def get_alerts
     @alerts =
       request("https://api.weather.gov/alerts/active?area=#{self.state}")
+
+      p @alerts["features"][0]["properties"]["headline"]
+      p @alerts["features"][0]["properties"]["description"]
+
+      p @alerts["features"][0]["properties"]["effective"]
+p @alerts["features"][0]["properties"]["expires"]
+p @alerts["features"][0]["properties"]["category"]
+ @alerts.count
+p @alerts["features"][0]["properties"]["severity"]
+p @alerts["features"][0]["properties"]["certainty"]
+p @alerts["features"][0]["properties"]["urgency"]
+p @alerts["features"][0]["properties"]["event"]
+p @alerts["features"][0]["properties"]["instruction"]
+p @alerts["features"][0]["properties"]["affectedZones"]
+p @alerts["features"][0]["properties"]["areaDesc"]
+p @alerts["features"][0]["properties"]["geocode"]
+      # ["@id", "@type", "id", "areaDesc", "geocode", "affectedZones",
+      #    "references", "sent", "effective", "onset", "expires", "ends",
+      #     "status", "messageType", "category", "severity", "certainty",
+      #      "urgency", "event", "sender", "senderName", "headline",
+      #       "description", "instruction", "response", "parameters"]
+
+
+
   end
 
   def get_forecast
@@ -64,7 +88,6 @@ class Station < ActiveRecord::Base
   end
 
   def get_current_observations
-    @current = []
     @raw_current =
       request("https://api.weather.gov/stations/#{self.station_id}/observations")
 
@@ -116,7 +139,7 @@ s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
 p s
 
-p s.get_forecast
+s.get_alerts
 
 __END__
 ["@id", "@type", "elevation", "station", "timestamp",
