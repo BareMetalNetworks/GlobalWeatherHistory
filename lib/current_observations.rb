@@ -64,10 +64,12 @@ class Station < ActiveRecord::Base
       @raw_current["features"].each do |c|
         Observation.create!(
           raw_date: c["properties"]["timestamp"],
-       temperature: c["properties"]["temperature"]["value"],
-       #wind_direction: c["properties"]["windDirection"],
-      wind_gust: c["properties"]["windGust"]["value"],
-       station_pressure: c["properties"]["barometricPressure"]["value"]
+       temperature: c["properties"]["temperature"]["value"] || 0.0,
+       wind_direction: c["properties"]["windDirection"]["value"] || 0.0,
+      wind_gust: c["properties"]["windGust"]["value"] || 0.0,
+       station_pressure: c["properties"]["barometricPressure"]["value"] || 0.0,
+       sea_level_pressure: c["properties"]["seaLevelPressure"]["value"] || 0.0,
+       visibility: c["properties"]["visibility"]["value"] || 0.0,
      )
 
 #   @temperature = convert_c_to_f(p["temperature"]["value"])
