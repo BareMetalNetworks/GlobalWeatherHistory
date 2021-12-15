@@ -63,13 +63,19 @@ class Station < ActiveRecord::Base
 
       @raw_current["features"].each do |c|
         Observation.create!(
-          raw_date: c["properties"]["timestamp"],
-       temperature: c["properties"]["temperature"]["value"] || 0.0,
-       wind_direction: c["properties"]["windDirection"]["value"] || 0.0,
-      wind_gust: c["properties"]["windGust"]["value"] || 0.0,
-       station_pressure: c["properties"]["barometricPressure"]["value"] || 0.0,
-       sea_level_pressure: c["properties"]["seaLevelPressure"]["value"] || 0.0,
-       visibility: c["properties"]["visibility"]["value"] || 0.0,
+         raw_date: c["properties"]["timestamp"],
+         temperature: c["properties"]["temperature"]["value"] || 0.0,
+         wind_direction: c["properties"]["windDirection"]["value"] || 0.0,
+         wind_gust: c["properties"]["windGust"]["value"] || 0.0,
+         station_pressure: c["properties"]["barometricPressure"]["value"] || 0.0,
+         sea_level_pressure: c["properties"]["seaLevelPressure"]["value"] || 0.0,
+         visibility: c["properties"]["visibility"]["value"] || 0.0,
+         dew_point: c["properties"]["dewPoint"] || 0.0,
+         max_temp: c["properties"]["maxTemperatureLast24Hours"]["value"] || 0.0,
+         min_temp:  c["properties"]["minTemperatureLast24Hours"]["value"] || 0.0,
+         precipitation:  c["properties"]["preciptationLastHour"] || 0.0,
+         humidity: c["properties"]["relativeHumidity"]["value"] || 0.0,
+         wind_chill: c["properties"]["windChill"]["value"] || 0.0,
      )
 
 #   @temperature = convert_c_to_f(p["temperature"]["value"])
