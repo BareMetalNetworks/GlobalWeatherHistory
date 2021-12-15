@@ -62,7 +62,7 @@ class Station < ActiveRecord::Base
 
 
       @raw_current["features"].each do |c|
-        Observation.create!(
+        self.observations << Observation.create!(
          raw_date: c["properties"]["timestamp"],
          temperature: c["properties"]["temperature"]["value"] || 0.0,
          wind_direction: c["properties"]["windDirection"]["value"] || 0.0,
@@ -82,11 +82,7 @@ class Station < ActiveRecord::Base
      )
 
       end
-
-    #  Observation.create!(raw_date: p["properties"]["timestamp"])
-
    end
-
 end
    #    self.observations << o
    #    self.save!
@@ -158,7 +154,7 @@ s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
 p s
 
 s.get_current_observations
-p Observation.first
+p s.observations
 #
 #   c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
 #     c.get_current
