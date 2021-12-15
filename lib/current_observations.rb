@@ -44,10 +44,32 @@ end
       t.timestamps
       t.belongs_to :station, index: true
     end
+
+create_table :alerts, force: true do |t|
+    t.belongs_to :station, index: true
+    t.string :headline
+    t.text :description
+    t.string :effective
+    t.string :expires
+    t.string :category
+    t.string :severity
+    t.string :certainty
+    t.string :urgency
+    t.string :event
+    t.string :instruction
+    t.string :affected_zones
+    t.string :area_desc
+
   end
+end
+
+class Alert < ActiveRecord::Base
+  belongs_to :station
+end
 
 class Station < ActiveRecord::Base
   has_many :observations
+  has_many :alerts
 
   def request(url)
     @response = JSON.parse(HTTParty.get(url).body)
@@ -71,15 +93,6 @@ p @alerts["features"][0]["properties"]["event"]
 p @alerts["features"][0]["properties"]["instruction"]
 p @alerts["features"][0]["properties"]["affectedZones"]
 p @alerts["features"][0]["properties"]["areaDesc"]
-p @alerts["features"][0]["properties"]["geocode"]
-      # ["@id", "@type", "id", "areaDesc", "geocode", "affectedZones",
-      #    "references", "sent", "effective", "onset", "expires", "ends",
-      #     "status", "messageType", "category", "severity", "certainty",
-      #      "urgency", "event", "sender", "senderName", "headline",
-      #       "description", "instruction", "response", "parameters"]
-
-
-
   end
 
   def get_forecast
