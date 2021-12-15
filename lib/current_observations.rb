@@ -76,6 +76,9 @@ class Station < ActiveRecord::Base
          precipitation:  c["properties"]["preciptationLastHour"] || 0.0,
          humidity: c["properties"]["relativeHumidity"]["value"] || 0.0,
          wind_chill: c["properties"]["windChill"]["value"] || 0.0,
+         cloud_layers: c["properties"]["cloudLayers"] || 0.0,
+         wind_speed: c["properties"]["windSpeed"]["value"] || 0.0,
+         heat_index: c["properties"]["heatIndex"]["value"] || 0.0,
      )
 
 #   @temperature = convert_c_to_f(p["temperature"]["value"])
