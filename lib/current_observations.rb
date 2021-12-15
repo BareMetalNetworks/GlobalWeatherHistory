@@ -63,10 +63,15 @@ class Station < ActiveRecord::Base
 
       @raw_current["features"].each do |c|
         Observation.create!(
-       temperature: c["properties"]["temperature"]["value"])
+          raw_date: c["properties"]["timestamp"],
+       temperature: c["properties"]["temperature"]["value"],
+       #wind_direction: c["properties"]["windDirection"],
+      wind_gust: c["properties"]["windGust"]["value"],
+       station_pressure: c["properties"]["barometricPressure"]["value"]
+     )
 
 #   @temperature = convert_c_to_f(p["temperature"]["value"])
-#   @windDirection = wind_direction_nil_guard(p["windDirection"]["value"])
+#   @windDirection = wind_direction_nil_guard(c["properties"]["windDirection"])
 #   @windSpeed = p["windSpeed"]["value"]
 #   @windGust = wind_gust_nil_guard(p["windGust"]["value"])
 #   @pressure = p["barometricPressure"]["value"]
@@ -164,7 +169,7 @@ s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
 p s
 
 s.get_current_observations
-p Observation.all
+p Observation.first
 #
 #   c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
 #     c.get_current
