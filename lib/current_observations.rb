@@ -81,24 +81,6 @@ class Station < ActiveRecord::Base
          heat_index: c["properties"]["heatIndex"]["value"] || 0.0,
      )
 
-#   @temperature = convert_c_to_f(p["temperature"]["value"])
-#   @windDirection = wind_direction_nil_guard(c["properties"]["windDirection"])
-#   @windSpeed = p["windSpeed"]["value"]
-#   @windGust = wind_gust_nil_guard(p["windGust"]["value"])
-#   @pressure = p["barometricPressure"]["value"]
-#   @seaLevelPressure = p["seaLevelPressure"]["value"]
-#   @visibility = p["visibility"]["value"]
-# #  @presentWeather = p["presentWeather"]
-# #  @dewPoint = p["dewPoint"]
-# #  @maxTemp = p["maxTemperatureLast24Hours"]["value"]
-# #  @minTemp = p["minTemperatureLast24Hours"]["value"]
-#   @precipLastHour = precip_nil_guard(p["preciptationLastHour"])
-# #  @precipLast3Hours = p["preciptationLast3Hours"]
-# #  @precipLast6Hours = p["preciptationLast6Hours"]
-# #  @humidity = p["realtiveHumidity"]
-#   @windChill = truncate_wind_chill(p["windChill"]["value"])
-# #  @heatIndex = p["heatIndex"]["value"]
-#   @cloudLayers = get_cloud_layers(p["cloudLayers"])
 
 
         #Observation.create!(capture: v["value"])
