@@ -55,6 +55,16 @@ class Station < ActiveRecord::Base
     @response = JSON.parse(HTTParty.get(url).body)
   end
 
+  def get_alerts
+    @alerts =
+      request("https://api.weather.gov/alerts/active?area=#{self.state}")
+  end
+
+  def get_forecast
+    @forecast =
+      request("https://api.weather.gov/gridpoints/#{self.station_grid}/forecast")
+  end
+
   def get_current_observations
     @current = []
     @raw_current =
@@ -153,9 +163,8 @@ s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
 p s
 
-s.get_current_observations
-p s.observations
-#
+p s.get_alerts
+
 #   c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
 #     c.get_current
 #
