@@ -56,36 +56,54 @@ class Station < ActiveRecord::Base
   end
 
   def get_current_observations
+    @current = []
     @raw_current =
       request("https://api.weather.gov/stations/KTWF/observations")
 
 
-   #  @raw_current["features"].each do |c|
-   #    o = Observation.create!(raw_date: p["timestamp"],
-   #      temperature: p["temperature"]["value"]|| 0.0,
-   #      dew_point: p["dewPoint"] || 0.0,
-   #      station_pressure: p["barometricPressure"]["value"] || 0.0,
-   #      sea_level_pressure: p["seaLevelPressure"]["value"] || 0.0,
-   #      visibility: p["visibility"]["value"] || 0.0,
-   #      wind_speed: p["windSpeed"]["value"] || 0.0 ,
-   #      wind_gust: p["windGust"]["value"] || 0.0,
-   #      max_temp: p["maxTemperatureLast24Hours"]["value"] || 0.0,
-   #      min_temp:  p["minTemperatureLast24Hours"]["value"] || 0.0,
-   #      precipitation: p["preciptationLastHour"] || 0.0,
-   #      heat_index: p["heatIndex"]["value"] || 0.0,
-   #      cloud_layers: p["cloudLayers"] || 0.0,
-   #      humidity: p["realtiveHumidity"] || 0.0,
-   #      wind_chill: p["windChill"]["value"] || 0.0,
-   #      wind_direction: p["windDirection"]["value"] || 0.0
-   # )
+      @raw_current["features"].each do |c|
+        Observation.create!(
+       temperature: c["properties"]["temperature"]["value"])
+
+#   @temperature = convert_c_to_f(p["temperature"]["value"])
+#   @windDirection = wind_direction_nil_guard(p["windDirection"]["value"])
+#   @windSpeed = p["windSpeed"]["value"]
+#   @windGust = wind_gust_nil_guard(p["windGust"]["value"])
+#   @pressure = p["barometricPressure"]["value"]
+#   @seaLevelPressure = p["seaLevelPressure"]["value"]
+#   @visibility = p["visibility"]["value"]
+# #  @presentWeather = p["presentWeather"]
+# #  @dewPoint = p["dewPoint"]
+# #  @maxTemp = p["maxTemperatureLast24Hours"]["value"]
+# #  @minTemp = p["minTemperatureLast24Hours"]["value"]
+#   @precipLastHour = precip_nil_guard(p["preciptationLastHour"])
+# #  @precipLast3Hours = p["preciptationLast3Hours"]
+# #  @precipLast6Hours = p["preciptationLast6Hours"]
+# #  @humidity = p["realtiveHumidity"]
+#   @windChill = truncate_wind_chill(p["windChill"]["value"])
+# #  @heatIndex = p["heatIndex"]["value"]
+#   @cloudLayers = get_cloud_layers(p["cloudLayers"])
+
+
+        #Observation.create!(capture: v["value"])
+
+      end
+
+    #  Observation.create!(raw_date: p["properties"]["timestamp"])
+
+   end
+
+end
    #    self.observations << o
    #    self.save!
-    #end
-  end
-end
+     #end
+
+
 
 class Observation < ActiveRecord::Base
   belongs_to :station
+
+
 
   #
   # def get_cloud_layers(l)
@@ -145,8 +163,8 @@ s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
 p s
 
-#s.get_current_observations
-
+s.get_current_observations
+p Observation.all
 #
 #   c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
 #     c.get_current
