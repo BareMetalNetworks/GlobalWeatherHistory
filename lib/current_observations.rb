@@ -58,7 +58,7 @@ class Station < ActiveRecord::Base
   def get_current_observations
     @current = []
     @raw_current =
-      request("https://api.weather.gov/stations/KTWF/observations")
+      request("https://api.weather.gov/stations/#{self.station_id}/observations")
 
 
       @raw_current["features"].each do |c|
@@ -80,10 +80,6 @@ class Station < ActiveRecord::Base
          wind_speed: c["properties"]["windSpeed"]["value"] || 0.0,
          heat_index: c["properties"]["heatIndex"]["value"] || 0.0,
      )
-
-
-
-        #Observation.create!(capture: v["value"])
 
       end
 
