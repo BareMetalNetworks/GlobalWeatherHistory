@@ -82,6 +82,7 @@ end
 class Station < ActiveRecord::Base
   has_many :observations
   has_many :alerts
+  has_many :forecasts
 
   def request(url)
     @response = JSON.parse(HTTParty.get(url).body)
@@ -123,8 +124,12 @@ p @forecast["properties"]["generatedAt"]
 # "temperatureUnit", "temperatureTrend", "windSpeed", "windDirection",
 #  "icon", "shortForecast", "detailedForecast"]
       @forecast["properties"]["periods"].each do |cast|
-        p cast["startTime"].to_s + "        " + cast["temperature"].to_s + ":" +cast["temperatureTrend"].to_s
+        self.forecasts << Forecast.create!(
+          start_time: cast["startTime"],
+          temperature: cast["temperature"],
+          temperature_trend: cast["temperatureTrend"],
 
+         )
       end
 
   end
@@ -187,7 +192,7 @@ s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
 p s
 s.get_forecast
-
+p s.forecasts.first
 
 __END__
 ["@id", "@type", "elevation", "station", "timestamp",
