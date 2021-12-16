@@ -59,12 +59,7 @@ create_table :alerts, force: true do |t|
     t.string :instruction
     t.string :affected_zones
     t.string :area_desc
-
   end
-end
-
-class Alert < ActiveRecord::Base
-  belongs_to :station
 end
 
 class Station < ActiveRecord::Base
@@ -78,22 +73,27 @@ class Station < ActiveRecord::Base
   def get_alerts
     @alerts =
       request("https://api.weather.gov/alerts/active?area=#{self.state}")
+      p @alerts["features"][2]["properties"].keys
+      @alerts["features"].each do |alert|
 
-      p @alerts["features"][0]["properties"]["headline"]
-      p @alerts["features"][0]["properties"]["description"]
+        #p  alert["properties"]["headline"]
 
-      p @alerts["features"][0]["properties"]["effective"]
-p @alerts["features"][0]["properties"]["expires"]
-p @alerts["features"][0]["properties"]["category"]
- @alerts.count
-p @alerts["features"][0]["properties"]["severity"]
-p @alerts["features"][0]["properties"]["certainty"]
-p @alerts["features"][0]["properties"]["urgency"]
-p @alerts["features"][0]["properties"]["event"]
-p @alerts["features"][0]["properties"]["instruction"]
-p @alerts["features"][0]["properties"]["affectedZones"]
-p @alerts["features"][0]["properties"]["areaDesc"]
-  end
+        self.alerts << Alert.create!(
+      headline: alert["properties"]["headline"] || "",
+      description: alert["properties"]["description"] || "",
+      effective: alert["properties"]["effective"] || "",
+      expires: alert["properties"]["expires"] || "",
+      category: alert["properties"]["category"] || "",
+      severity: alert["properties"]["severity"] || "",
+      certainty: alert["properties"]["certainty"] || "",
+      urgency: alert["properties"]["urgency"] || "",
+      event: alert["properties"]["event"] || "",
+      instruction: alert["properties"]["instruction"] || "",
+      affected_zones: alert["properties"]["affectedZones"] || "",
+      area_desc: alert["properties"]["areaDesc"] || "",
+)
+   end
+end
 
   def get_forecast
     @forecast =
@@ -129,6 +129,9 @@ p @alerts["features"][0]["properties"]["areaDesc"]
    end
 end
 
+class Alert < ActiveRecord::Base
+  belongs_to :station
+end
 
 class Observation < ActiveRecord::Base
   belongs_to :station
@@ -151,9 +154,8 @@ end
 s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
 p s
-
 s.get_alerts
-
+p s.alerts.first
 __END__
 ["@id", "@type", "elevation", "station", "timestamp",
   "rawMessage", "textDescription", "icon", "presentWeather",
