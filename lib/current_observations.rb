@@ -7,7 +7,6 @@ ActiveRecord::Base.establish_connection(
   database: './database'
 )
 
-
 ActiveRecord::Schema.define do
   create_table :stations, force: true do |t|
     t.string :location
@@ -63,8 +62,8 @@ create_table :alerts, force: true do |t|
 
   create_table :forecasts, force: true do |t|
         t.belongs_to :station, index: true
-        t.date :start_time
-        t.date :end_time
+        t.datetime :start_time
+        t.datetime :end_time
         t.string :is_daytime
         t.float :temperature
         t.string :temperature_unit
@@ -73,9 +72,6 @@ create_table :alerts, force: true do |t|
         t.float :wind_direction
         t.text :short_forecast
         t.text :detailed_forecast
-        #["number", "name", "startTime", "endTime", "isDaytime", "temperature",
-        # "temperatureUnit", "temperatureTrend", "windSpeed", "windDirection",
-        #  "icon", "shortForecast", "detailedForecast"]
   end
 end
 
@@ -113,22 +109,18 @@ end
   def get_forecast
     @forecast =
       request("https://api.weather.gov/gridpoints/#{self.station_grid}/forecast")
-#["@context", "type", "geometry", "properties"]
-  # ["updated", "units", "forecastGenerator", "generatedAt", "updateTime",
-  # "validTimes", "elevation", "periods"]
-p @forecast["properties"]["updated"]
-p @forecast["properties"]["units"]
-p @forecast["properties"]["generatedAt"]
 
-#["number", "name", "startTime", "endTime", "isDaytime", "temperature",
-# "temperatureUnit", "temperatureTrend", "windSpeed", "windDirection",
-#  "icon", "shortForecast", "detailedForecast"]
       @forecast["properties"]["periods"].each do |cast|
         self.forecasts << Forecast.create!(
           start_time: cast["startTime"],
+          end_time: cast["endTime"],
           temperature: cast["temperature"],
           temperature_trend: cast["temperatureTrend"],
-
+          is_daytime: cast["isDaytime"],
+          wind_speed: cast["windSpeed"],
+          wind_direction: cast["windDirection"],
+          short_forecast: cast["shortForecast"],
+          detailed_forecast: cast["detailedForecast"],
          )
       end
 
