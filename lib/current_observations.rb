@@ -95,6 +95,14 @@ end
   def get_forecast
     @forecast =
       request("https://api.weather.gov/gridpoints/#{self.station_grid}/forecast")
+#["@context", "type", "geometry", "properties"]
+
+      p @forecast["properties"]["periods"]
+      p @forecast["properties"]["updated"]
+      p @forecast["properties"]["units"]
+      p @forecast["properties"]["generatedAt"]
+      # ["updated", "units", "forecastGenerator", "generatedAt", "updateTime", "validTimes", "elevation", "periods"]
+
   end
 
   def get_current_observations
@@ -121,7 +129,6 @@ end
          wind_speed: c["properties"]["windSpeed"]["value"] || 0.0,
          heat_index: c["properties"]["heatIndex"]["value"] || 0.0,
      )
-
       end
    end
 end
@@ -151,8 +158,9 @@ end
 s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
 p s
-s.get_alerts
-p s.alerts.first
+s.get_forecast
+
+
 __END__
 ["@id", "@type", "elevation", "station", "timestamp",
   "rawMessage", "textDescription", "icon", "presentWeather",
