@@ -73,10 +73,7 @@ class Station < ActiveRecord::Base
   def get_alerts
     @alerts =
       request("https://api.weather.gov/alerts/active?area=#{self.state}")
-      p @alerts["features"][2]["properties"].keys
       @alerts["features"].each do |alert|
-
-        #p  alert["properties"]["headline"]
 
         self.alerts << Alert.create!(
       headline: alert["properties"]["headline"] || "",
