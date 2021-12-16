@@ -96,12 +96,18 @@ end
     @forecast =
       request("https://api.weather.gov/gridpoints/#{self.station_grid}/forecast")
 #["@context", "type", "geometry", "properties"]
+  # ["updated", "units", "forecastGenerator", "generatedAt", "updateTime",
+  # "validTimes", "elevation", "periods"]
+p @forecast["properties"]["updated"]
+p @forecast["properties"]["units"]
+p @forecast["properties"]["generatedAt"]
 
-      p @forecast["properties"]["periods"]
-      p @forecast["properties"]["updated"]
-      p @forecast["properties"]["units"]
-      p @forecast["properties"]["generatedAt"]
-      # ["updated", "units", "forecastGenerator", "generatedAt", "updateTime", "validTimes", "elevation", "periods"]
+#["number", "name", "startTime", "endTime", "isDaytime", "temperature",
+# "temperatureUnit", "temperatureTrend", "windSpeed", "windDirection",
+#  "icon", "shortForecast", "detailedForecast"]
+      @forecast["properties"]["periods"].each do |cast|
+        p cast["temperature"]
+      end
 
   end
 
@@ -131,6 +137,10 @@ end
      )
       end
    end
+end
+
+class Forecast < ActiveRecord::Base
+  belongs_to :station
 end
 
 class Alert < ActiveRecord::Base
