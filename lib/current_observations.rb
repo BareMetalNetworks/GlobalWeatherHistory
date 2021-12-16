@@ -123,7 +123,8 @@ p @forecast["properties"]["generatedAt"]
 # "temperatureUnit", "temperatureTrend", "windSpeed", "windDirection",
 #  "icon", "shortForecast", "detailedForecast"]
       @forecast["properties"]["periods"].each do |cast|
-        p cast["temperature"]
+        p cast["startTime"].to_s + "        " + cast["temperature"].to_s + ":" +cast["temperatureTrend"].to_s
+
       end
 
   end
