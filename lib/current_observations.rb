@@ -60,6 +60,23 @@ create_table :alerts, force: true do |t|
     t.string :affected_zones
     t.string :area_desc
   end
+
+  create_table :forecasts, force: true do |t|
+        t.belongs_to :station, index: true
+        t.date :start_time
+        t.date :end_time
+        t.string :is_daytime
+        t.float :temperature
+        t.string :temperature_unit
+        t.string :temperature_trend
+        t.float :wind_speed
+        t.float :wind_direction
+        t.text :short_forecast
+        t.text :detailed_forecast
+        #["number", "name", "startTime", "endTime", "isDaytime", "temperature",
+        # "temperatureUnit", "temperatureTrend", "windSpeed", "windDirection",
+        #  "icon", "shortForecast", "detailedForecast"]
+  end
 end
 
 class Station < ActiveRecord::Base
