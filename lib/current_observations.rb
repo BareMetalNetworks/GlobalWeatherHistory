@@ -8,16 +8,16 @@ ActiveRecord::Base.establish_connection(
 )
 
 ActiveRecord::Schema.define do
-  create_table :stations, force: true do |t|
-    t.string :location
-    t.float :lat
-    t.float :long
-    t.float :elevation
-    t.string :station_grid
-    t.string :station_id
-    t.string :state
-    t.string :name
-end
+    create_table :stations, force: true do |t|
+      t.string :location
+      t.float :lat
+      t.float :long
+      t.float :elevation
+      t.string :station_grid
+      t.string :station_id
+      t.string :state
+      t.string :name
+  end
 
     create_table :observations, force: true do |t|
       t.integer :epoch
@@ -44,35 +44,35 @@ end
       t.belongs_to :station, index: true
     end
 
-create_table :alerts, force: true do |t|
-    t.belongs_to :station, index: true
-    t.string :headline
-    t.text :description
-    t.string :effective
-    t.string :expires
-    t.string :category
-    t.string :severity
-    t.string :certainty
-    t.string :urgency
-    t.string :event
-    t.string :instruction
-    t.string :affected_zones
-    t.string :area_desc
-  end
+  create_table :alerts, force: true do |t|
+      t.belongs_to :station, index: true
+      t.string :headline
+      t.text :description
+      t.string :effective
+      t.string :expires
+      t.string :category
+      t.string :severity
+      t.string :certainty
+      t.string :urgency
+      t.string :event
+      t.string :instruction
+      t.string :affected_zones
+      t.string :area_desc
+    end
 
-  create_table :forecasts, force: true do |t|
-        t.belongs_to :station, index: true
-        t.datetime :start_time
-        t.datetime :end_time
-        t.string :is_daytime
-        t.float :temperature
-        t.string :temperature_unit
-        t.string :temperature_trend
-        t.float :wind_speed
-        t.float :wind_direction
-        t.text :short_forecast
-        t.text :detailed_forecast
-  end
+    create_table :forecasts, force: true do |t|
+      t.belongs_to :station, index: true
+      t.datetime :start_time
+      t.datetime :end_time
+      t.string :is_daytime
+      t.float :temperature
+      t.string :temperature_unit
+      t.string :temperature_trend
+      t.float :wind_speed
+      t.float :wind_direction
+      t.text :short_forecast
+      t.text :detailed_forecast
+    end
 end
 
 class Station < ActiveRecord::Base
@@ -87,22 +87,22 @@ class Station < ActiveRecord::Base
   def get_alerts
     @alerts =
       request("https://api.weather.gov/alerts/active?area=#{self.state}")
-      @alerts["features"].each do |alert|
 
+      @alerts["features"].each do |alert|
         self.alerts << Alert.create!(
-      headline: alert["properties"]["headline"] || "",
-      description: alert["properties"]["description"] || "",
-      effective: alert["properties"]["effective"] || "",
-      expires: alert["properties"]["expires"] || "",
-      category: alert["properties"]["category"] || "",
-      severity: alert["properties"]["severity"] || "",
-      certainty: alert["properties"]["certainty"] || "",
-      urgency: alert["properties"]["urgency"] || "",
-      event: alert["properties"]["event"] || "",
-      instruction: alert["properties"]["instruction"] || "",
-      affected_zones: alert["properties"]["affectedZones"] || "",
-      area_desc: alert["properties"]["areaDesc"] || "",
-)
+          headline: alert["properties"]["headline"] || "",
+          description: alert["properties"]["description"] || "",
+          effective: alert["properties"]["effective"] || "",
+          expires: alert["properties"]["expires"] || "",
+          category: alert["properties"]["category"] || "",
+          severity: alert["properties"]["severity"] || "",
+          certainty: alert["properties"]["certainty"] || "",
+          urgency: alert["properties"]["urgency"] || "",
+          event: alert["properties"]["event"] || "",
+          instruction: alert["properties"]["instruction"] || "",
+          affected_zones: alert["properties"]["affectedZones"] || "",
+          area_desc: alert["properties"]["areaDesc"] || "",
+          )
    end
 end
 
