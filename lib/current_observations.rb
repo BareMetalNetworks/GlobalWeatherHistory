@@ -8,7 +8,7 @@ ActiveRecord::Base.establish_connection(
 )
 
 ActiveRecord::Schema.define do
-    create_table :stations, force: false do |t|
+    create_table :stations, force: true do |t|
       t.string :location
       t.float :lat
       t.float :long
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define do
       t.string :name
   end
 
-    create_table :observations, force: false do |t|
+    create_table :observations, force: true do |t|
       t.integer :epoch
       t.date :capture
       t.string :raw_date
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define do
       t.belongs_to :station, index: true
     end
 
-  create_table :alerts, force: false do |t|
+  create_table :alerts, force: true do |t|
       t.belongs_to :station, index: true
       t.string :headline
       t.text :description
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define do
       t.string :area_desc
     end
 
-    create_table :forecasts, force: false do |t|
+    create_table :forecasts, force: true do |t|
       t.belongs_to :station, index: true
       t.datetime :start_time
       t.datetime :end_time
@@ -77,6 +77,12 @@ class Station < ActiveRecord::Base
   has_many :observations
   has_many :alerts
   has_many :forecasts
+
+  def get_all_current_data
+    get_alerts()
+    get_forecast()
+    get_current_observations()
+  end
 
   def request(url)
     @response = JSON.parse(HTTParty.get(url).body)
@@ -180,9 +186,11 @@ end
 
 s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
-p s
-s.get_forecast
+
+s.get_all_current_data
 p s.forecasts.first
+p s.alerts.first
+p s.observations.first
 
 __END__
 ["@id", "@type", "elevation", "station", "timestamp",
