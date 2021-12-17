@@ -2,15 +2,12 @@ require 'json'
 require 'redis'
 require_relative 'lib/current_observations'
 #require_relative 'lib/database'
+require 'active_record'
 
-redis = Redis.new
-
-c = CurrentObservations.new("KTWF", 'BOI/182,24', "ID")
-obs =  c.get_current
-
-c.current.each do |obs|
-  p obs
-end
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: './database'
+)
 
 # c.current.each_with_index do |x,i|
 #   p "Index: #{i} Timestamp: #{x.timestamp} Primary: #{x.key} Temp: #{x.temperature}"
