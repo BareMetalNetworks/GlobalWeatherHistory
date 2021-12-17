@@ -8,7 +8,7 @@ ActiveRecord::Base.establish_connection(
 )
 
 ActiveRecord::Schema.define do
-    create_table :stations, force: true do |t|
+    create_table :stations, force: false do |t|
       t.string :location
       t.float :lat
       t.float :long
@@ -19,12 +19,10 @@ ActiveRecord::Schema.define do
       t.string :name
   end
 
-    create_table :observations, force: true do |t|
+    create_table :observations, force: false do |t|
       t.integer :epoch
-      #t.string :location
       t.date :capture
       t.string :raw_date
-      #t.float :temp_avg
       t.float :dew_point
       t.float :temperature
       t.float :station_pressure
@@ -44,7 +42,7 @@ ActiveRecord::Schema.define do
       t.belongs_to :station, index: true
     end
 
-  create_table :alerts, force: true do |t|
+  create_table :alerts, force: false do |t|
       t.belongs_to :station, index: true
       t.string :headline
       t.text :description
@@ -60,7 +58,7 @@ ActiveRecord::Schema.define do
       t.string :area_desc
     end
 
-    create_table :forecasts, force: true do |t|
+    create_table :forecasts, force: false do |t|
       t.belongs_to :station, index: true
       t.datetime :start_time
       t.datetime :end_time
