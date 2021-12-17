@@ -13,7 +13,7 @@ class Station < ActiveRecord::Base
   has_many :alerts
   has_many :forecasts
 
-  def get_all_current_data
+  def fetch_all_current_data
     get_alerts()
     get_forecast()
     get_current_observations()
