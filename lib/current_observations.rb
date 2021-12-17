@@ -121,15 +121,16 @@ end
 
 s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
-
+iter = 0
 loop {
-  iter = 0
+
 s.get_all_current_data
-p s.forecasts.first
-p s.alerts.first
-p s.observations.first
-p "######### Iteration #{iter}"
+p s.forecasts.last
+p s.alerts.last
+p s.observations.last
+p "######### Iteration #{iter} Observations: #{s.observations.count}"
 sleep(3600)
+iter += 1
 }
 
 __END__
