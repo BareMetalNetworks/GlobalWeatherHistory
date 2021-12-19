@@ -42,6 +42,7 @@ class Station < ActiveRecord::Base
           affected_zones: alert["properties"]["affectedZones"] || "",
           area_desc: alert["properties"]["areaDesc"] || "",
           )
+          self.save!
    end
 end
 
@@ -61,6 +62,7 @@ end
           short_forecast: cast["shortForecast"],
           detailed_forecast: cast["detailedForecast"],
          )
+         self.save!
       end
 
   end
@@ -89,6 +91,7 @@ end
          wind_speed: c["properties"]["windSpeed"]["value"] || 0.0,
          heat_index: c["properties"]["heatIndex"]["value"] || 0.0,
      )
+      self.save!
       end
    end
 end
