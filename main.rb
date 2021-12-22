@@ -1,7 +1,6 @@
 require 'json'
 require 'redis'
 require_relative 'lib/current_observations'
-#require_relative 'lib/database'
 require 'active_record'
 
 ActiveRecord::Base.establish_connection(
@@ -9,7 +8,7 @@ ActiveRecord::Base.establish_connection(
   database: './database'
 )
 
-s = Station.create(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
+s = Station.create!(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
 
 s.fetch_all_current_data
