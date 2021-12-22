@@ -7,7 +7,6 @@ ActiveRecord::Base.establish_connection(
   database: './data/database'
 )
 
-
 class Station < ActiveRecord::Base
   has_many :observations
   has_many :alerts
@@ -73,7 +72,9 @@ end
 
 
       @raw_current["features"].each do |c|
+        capture = create_capture_timestamp(c["properties"]["timestamp"])
         self.observations << Observation.create!(
+         epoch: capture,
          raw_date: c["properties"]["timestamp"],
          temperature: c["properties"]["temperature"]["value"] || 0.0,
          wind_direction: c["properties"]["windDirection"]["value"] || 0.0,
@@ -94,6 +95,11 @@ end
       self.save!
       end
    end
+
+     def create_capture_timestamp(raw_timestamp) # 2021-12-09T03:53:00+00:00
+       b = DateTime.parse(raw_timestamp)
+       Time.new(b.year, b.month, b.day, b.hour, b.minute).to_i
+     end
 end
 
 class Forecast < ActiveRecord::Base
@@ -111,10 +117,7 @@ class Observation < ActiveRecord::Base
   #   l[0]["amount"]
   # end
   #
-  #   def create_primary_key(raw_timestamp) # 2021-12-09T03:53:00+00:00
-  #     b = DateTime.parse(raw_timestamp)
-  #     Time.new(b.year, b.month, b.day, b.hour, b.minute).to_i
-  #   end
+
   #
   #   def convert_c_to_f(temp)
   #     (temp.to_f * 9.0 / 5.0 + 32).truncate(2)
