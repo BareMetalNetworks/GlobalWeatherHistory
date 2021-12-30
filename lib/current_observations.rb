@@ -128,6 +128,17 @@ end
 
 
 __END__
+
+salmon dam https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst
+https://water.weather.gov/ahps2/hydrograph.php?wfo=boi&gage=sfri1
+
+salmon river (upstream) https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfln2&output=tabular&time_zone=pst
+https://water.weather.gov/ahps2/hydrograph.php?wfo=lkn&gage=sfln2&prob_type=stage&source=hydrograph
+
+salmon river (downstream)
+https://water.weather.gov/ahps2/hydrograph.php?wfo=boi&gage=hagi1&prob_type=stage&source=hydrograph
+https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=hagi1&output=tabular&time_zone=mst
+
 ["@id", "@type", "elevation", "station", "timestamp",
   "rawMessage", "textDescription", "icon", "presentWeather",
   "temperature", "dewpoint", "windDirection", "windSpeed",

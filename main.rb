@@ -14,6 +14,7 @@ s = Station.create!(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
 s.fetch_all_current_data
 p s.observations.count
 p s.observations.last
+p s.forecasts.all.map {|x|  x.start_time.to_s + x.detailed_forecast.to_s}
 s.save!
 # c.current.each_with_index do |x,i|
 #   p "Index: #{i} Timestamp: #{x.timestamp} Primary: #{x.key} Temp: #{x.temperature}"
