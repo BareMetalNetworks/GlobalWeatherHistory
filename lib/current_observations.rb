@@ -129,10 +129,13 @@ end
 
 __END__
 
-salmon dam https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst
+salmon dam
+https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst
 https://water.weather.gov/ahps2/hydrograph.php?wfo=boi&gage=sfri1
+(historical) https://waterdata.usgs.gov/id/nwis/uv?site_no=13106500
 
-salmon river (upstream) https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfln2&output=tabular&time_zone=pst
+salmon river (upstream)
+https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfln2&output=tabular&time_zone=pst
 https://water.weather.gov/ahps2/hydrograph.php?wfo=lkn&gage=sfln2&prob_type=stage&source=hydrograph
 
 salmon river (downstream)
