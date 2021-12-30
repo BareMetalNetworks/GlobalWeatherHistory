@@ -129,6 +129,8 @@ end
 
 __END__
 
+--- hydrological data ---
+
 salmon dam
 https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst
 https://water.weather.gov/ahps2/hydrograph.php?wfo=boi&gage=sfri1
@@ -141,6 +143,12 @@ https://water.weather.gov/ahps2/hydrograph.php?wfo=lkn&gage=sfln2&prob_type=stag
 salmon river (downstream)
 https://water.weather.gov/ahps2/hydrograph.php?wfo=boi&gage=hagi1&prob_type=stage&source=hydrograph
 https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=hagi1&output=tabular&time_zone=mst
+
+us wide water resources
+https://waterdata.usgs.gov/nwis/rt
+
+api request building tool
+https://waterservices.usgs.gov/rest/IV-Test-Tool.html
 
 ["@id", "@type", "elevation", "station", "timestamp",
   "rawMessage", "textDescription", "icon", "presentWeather",
