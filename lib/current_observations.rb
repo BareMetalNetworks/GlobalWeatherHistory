@@ -13,7 +13,7 @@ class Hydrological
 end
 
 
-h = Hydrologic.new
+h = Hydrological.new
 p h.request("https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
 
 
