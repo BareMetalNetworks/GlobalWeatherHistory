@@ -1,6 +1,21 @@
 require 'httparty'
 require 'json'
 require 'active_record'
+require 'nokogiri'
+
+
+class Hydrological
+
+  def request(url)
+    @response = HTTParty.get(url).body
+  end
+
+end
+
+
+h = Hydrologic.new
+p h.request("https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
+
 
 ActiveRecord::Base.establish_connection(
   adapter: 'sqlite3',
@@ -125,17 +140,6 @@ class Observation < ActiveRecord::Base
 
 end
 
-class Hydrological
-
-  def request(url)
-    @response = HTTParty.get(url).body
-  end
-
-end
-
-
-h = Hydrologic.new
-p h.request("https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
 
 __END__
 
