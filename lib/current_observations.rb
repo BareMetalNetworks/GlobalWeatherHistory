@@ -7,7 +7,14 @@ require 'nokogiri'
 class Hydrological
 
   def request(url)
-    @response = HTTParty.get(url).body
+    @document = Nokogiri::HTML(HTTParty.get(url).body)
+    @document.at('table').at('table').search('tr').each do |row|
+       row.search('th, td')
+    end
+#     @document.at('table').search('tr').each do |row|
+#   @cells = row.search('th, td').map { |cell| cell.text.strip }
+# end
+#   @cells
   end
 
 end
