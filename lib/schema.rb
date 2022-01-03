@@ -9,7 +9,7 @@ ActiveRecord::Schema.define do
     create_table :hydrologicals, force: true do |t|
       t.string :name
       t.string :location
-      t.stirng :classification
+      t.string :classification
       t.float :capacity
       t.float :flood_stage
       t.string :url

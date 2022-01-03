@@ -4,15 +4,19 @@ require 'active_record'
 require 'nokogiri'
 
 
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: './data/database'
+)
 
-class WaterObservation
+class WaterObservation < ActiveRecord::Base
   attr_accessor :foo, :bar
 
   def initialize
     @foo = []
   end
 
-  def request(url)
+  def get_water_data(url)
     @document = Nokogiri::HTML(HTTParty.get(url).body)
     @table = @document.search('table').last
     @table.search('tr').each do |tr|
@@ -26,19 +30,15 @@ class WaterObservation
 
 end
 
-class Hydrological
+class Hydrological < ActiveRecord::Base
 end
 
+h = Hydrological.create!(name: "Salmon Dam")
+#  url: "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
+p h
 
-h = WaterObservation.new
- h.request("https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
- p h.foo[4..20]
 
 
-ActiveRecord::Base.establish_connection(
-  adapter: 'sqlite3',
-  database: './data/database'
-)
 
 class Station < ActiveRecord::Base
   has_many :observations
