@@ -10,14 +10,17 @@ ActiveRecord::Base.establish_connection(
 )
 
 class WaterObservation < ActiveRecord::Base
-  attr_accessor :foo, :bar
+  belongs_to :hydrological
+end
 
-  def initialize
+class Hydrological < ActiveRecord::Base
+  has_many :water_observations
+  attr_accessor :foo
+
+
+  def get_water_data()
     @foo = []
-  end
-
-  def get_water_data(url)
-    @document = Nokogiri::HTML(HTTParty.get(url).body)
+    @document = Nokogiri::HTML(HTTParty.get(@url).body)
     @table = @document.search('table').last
     @table.search('tr').each do |tr|
       cells = tr.search('th, td')
@@ -30,11 +33,8 @@ class WaterObservation < ActiveRecord::Base
 
 end
 
-class Hydrological < ActiveRecord::Base
-end
-
-h = Hydrological.create!(name: "Salmon Dam")
-#  url: "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
+h = Hydrological.create!(name: "Salmon Dam",
+  url: "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
 p h
 
 

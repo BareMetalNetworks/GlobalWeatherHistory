@@ -22,7 +22,6 @@ ActiveRecord::Schema.define do
       t.belongs_to :hydroloical, index: true
     end
 
-
     create_table :stations, force: true do |t|
       t.string :location
       t.float :lat
