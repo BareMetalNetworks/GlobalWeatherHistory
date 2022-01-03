@@ -5,27 +5,35 @@ require 'nokogiri'
 
 
 class Hydrological
+attr_accessor :foo, :bar
+
+def initialize
+  @foo = []
+  
+end
 
   def request(url)
     @document = Nokogiri::HTML(HTTParty.get(url).body)
     @table = @document.search('table').last
     @table.search('tr').each do |tr|
       cells = tr.search('th, td')
-      cells.each do |cell|
-        p cell.text.strip
-end
+      cells.each {|cell|
+        @foo.push cell.text.strip
+      }
     end
 #     @document.at('table').search('tr').each do |row|
 #   @cells = row.search('th, td').map { |cell| cell.text.strip }
 # end
 #   @cells
+    @foo
   end
 
 end
 
 
 h = Hydrological.new
-p h.request("https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
+ h.request("https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
+ p h.foo
 
 
 ActiveRecord::Base.establish_connection(
