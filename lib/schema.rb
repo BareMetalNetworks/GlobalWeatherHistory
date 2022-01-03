@@ -12,12 +12,14 @@ ActiveRecord::Schema.define do
       t.stirng :classification
       t.float :capacity
       t.float :flood_stage
+      t.string :url
     end
 
     create_table :water_observations, force: true do |t|
       t.timestamps
       t.float :stage
       t.float :flow
+      t.belongs_to :hydroloical, index: true
     end
 
 
