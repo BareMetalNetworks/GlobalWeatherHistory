@@ -9,7 +9,7 @@ ActiveRecord::Base.establish_connection(
   database: './data/database'
 )
 
-class WaterObservation < ActiveRecord::Base
+class Waterlevel < ActiveRecord::Base
   belongs_to :hydrological
 end
 
@@ -17,10 +17,14 @@ class Hydrological < ActiveRecord::Base
   has_many :water_observations
   attr_accessor :foo
 
+  def insert(data)
+    w = Waterlevel.create!(stage: data[1], flow: data[2])
+    w.save!
+  end
 
   def get_water_data()
     @foo = []
-    @document = Nokogiri::HTML(HTTParty.get(@url).body)
+    @document = Nokogiri::HTML(HTTParty.get(self.url).body)
     @table = @document.search('table').last
     @table.search('tr').each do |tr|
       cells = tr.search('th, td')
@@ -35,7 +39,10 @@ end
 
 h = Hydrological.create!(name: "Salmon Dam",
   url: "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
-p h
+ data = h.get_water_data[4..6]
+ p data
+#h.insert(data)
+#p h.waterlevels.all
 
 
 

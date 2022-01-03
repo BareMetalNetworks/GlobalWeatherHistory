@@ -15,11 +15,11 @@ ActiveRecord::Schema.define do
       t.string :url
     end
 
-    create_table :water_observations, force: true do |t|
+    create_table :waterlevels, force: true do |t|
       t.timestamps
       t.float :stage
       t.float :flow
-      t.belongs_to :hydroloical, index: true
+      t.belongs_to :hydrological, index: true
     end
 
     create_table :stations, force: true do |t|
