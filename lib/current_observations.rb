@@ -9,7 +9,6 @@ attr_accessor :foo, :bar
 
 def initialize
   @foo = []
-  
 end
 
   def request(url)
@@ -17,17 +16,12 @@ end
     @table = @document.search('table').last
     @table.search('tr').each do |tr|
       cells = tr.search('th, td')
-      cells.each {|cell|
-        @foo.push cell.text.strip
-      }
+        cells.each {|cell|
+          @foo.push cell.text.strip
+        }
     end
-#     @document.at('table').search('tr').each do |row|
-#   @cells = row.search('th, td').map { |cell| cell.text.strip }
-# end
-#   @cells
     @foo
   end
-
 end
 
 
