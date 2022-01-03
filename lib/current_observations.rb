@@ -27,7 +27,7 @@ end
 
 h = Hydrological.new
  h.request("https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
- p h.foo
+ p h.foo[4..20]
 
 
 ActiveRecord::Base.establish_connection(

@@ -5,6 +5,22 @@ ActiveRecord::Base.establish_connection(
   database: './data/database'
 )
 ActiveRecord::Schema.define do
+
+    create_table :hydrologicals, force: true do |t|
+      t.string :name
+      t.string :location
+      t.stirng :classification
+      t.float :capacity
+      t.float :flood_stage
+    end
+
+    create_table :water_observations, force: true do |t|
+      t.timestamps
+      t.float :stage
+      t.float :flow
+    end
+
+
     create_table :stations, force: true do |t|
       t.string :location
       t.float :lat
@@ -15,7 +31,7 @@ ActiveRecord::Schema.define do
       t.string :state
       t.string :name
   end
-
+    # change to weather obs
     create_table :observations, force: true do |t|
       t.integer :epoch
       t.date :capture
