@@ -14,12 +14,14 @@ class Waterlevel < ActiveRecord::Base
 end
 
 class Hydrological < ActiveRecord::Base
-  has_many :water_observations
+  has_many :waterlevels
   attr_accessor :foo
 
   def insert(data)
     w = Waterlevel.create!(stage: data[1], flow: data[2])
-    w.save!
+    #w.save!
+    self.waterlevels << w
+    self.save!
   end
 
   def get_water_data()
@@ -40,9 +42,9 @@ end
 h = Hydrological.create!(name: "Salmon Dam",
   url: "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
  data = h.get_water_data[4..6]
- p data
-#h.insert(data)
-#p h.waterlevels.all
+
+h.insert(data)
+p h.waterlevels.all
 
 
 
