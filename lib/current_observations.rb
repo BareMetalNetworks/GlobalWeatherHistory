@@ -4,12 +4,13 @@ require 'active_record'
 require 'nokogiri'
 
 
-class Hydrological
-attr_accessor :foo, :bar
 
-def initialize
-  @foo = []
-end
+class WaterObservation
+  attr_accessor :foo, :bar
+
+  def initialize
+    @foo = []
+  end
 
   def request(url)
     @document = Nokogiri::HTML(HTTParty.get(url).body)
@@ -22,10 +23,14 @@ end
     end
     @foo
   end
+
+end
+
+class Hydrological
 end
 
 
-h = Hydrological.new
+h = WaterObservation.new
  h.request("https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
  p h.foo[4..20]
 
