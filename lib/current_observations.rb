@@ -39,12 +39,6 @@ class Hydrological < ActiveRecord::Base
 
 end
 
-h = Hydrological.create!(name: "Salmon Dam",
-  url: "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=sfri1&output=tabular&time_zone=mst")
- data = h.get_water_data[4..6]
-
-h.insert(data)
-p h.waterlevels.all
 
 
 
