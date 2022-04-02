@@ -26,6 +26,8 @@ s = Station.create!(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
 # c.current.each_with_index do |x,i|
 #   p "Index: #{i} Timestamp: #{x.timestamp} Primary: #{x.key} Temp: #{x.temperature}"
 # end
+
+# Git test #
 __END__
 :obs, :timestamp, :temperature, :presentWeather, :dewPoint,
   :windDirection, :windSpeed, :windGust, :pressure, :seaLevelPressure,
