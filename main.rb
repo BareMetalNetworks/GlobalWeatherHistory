@@ -10,9 +10,11 @@ ActiveRecord::Base.establish_connection(
 s = Station.create!(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
         name: "Joslin Field")
 
-# s.fetch_all_current_data
-# p s.observations.count
-# p s.observations.last
+ s.fetch_all_current_data
+ p s.observations.count
+ sorted_obs = s.observations.sort_by { |k, v| k[:raw_date] }
+p sorted_obs.first
+p sorted_obs.last
 # p s.forecasts.all.map {|x|  x.start_time.to_s + x.detailed_forecast.to_s}
 # s.save!
 
@@ -27,7 +29,6 @@ s = Station.create!(station_id: "KTWF", station_grid: 'BOI/182,24', state: "ID",
 #   p "Index: #{i} Timestamp: #{x.timestamp} Primary: #{x.key} Temp: #{x.temperature}"
 # end
 
-# Git test #
 __END__
 :obs, :timestamp, :temperature, :presentWeather, :dewPoint,
   :windDirection, :windSpeed, :windGust, :pressure, :seaLevelPressure,
